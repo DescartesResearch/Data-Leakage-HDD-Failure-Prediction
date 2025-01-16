@@ -105,7 +105,7 @@ def generate_latex_table(models: list[str],
     ])
 
     # Print the LaTeX table to the console
-    print(s := "\n".join(latex_table))
+    # print(s := "\n".join(latex_table))
 
     if to_clipboard:
         # Copy the LaTeX table to the clipboard
