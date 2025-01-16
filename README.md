@@ -12,7 +12,7 @@ In the following we explain how to setup the environment to repeat the experimen
 pip install -r requirements.txt
 ```
 
-3. Download the HDD stats data from Backblaze: https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
+3. Download the HDD stats data from Backblaze: [Backblaze Hard Drive Test Data](https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data)
    <br> In the paper, the 2014/15 data and 2016 data was used.
 4. For the 2014 data, place the downloaded `data_2014.zip` file in `data/data_2014/data_2014.zip` Don't extract the zip
    file as the script will do this for you. (Please note: Not in `src/data/data_2014/...`! Create the data folder in the project root directory.) 
@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 The required amount of time to run all experiments can be quite long (multiple days on the hardware described in the
 paper). Therefore, we provide intermediate results for the hyperparameter tuning, training and independent testing
-steps. You can download them from the following link: https://figshare.com/articles/dataset/Intermediate_results_for_the_ICPE_2025_research_paper_artifact_related_to_Quantifying_Data_Leakage_in_Failure_Prediction_Tasks_/28218647
+steps. You can download them from the following link: [Intermediate results download](https://figshare.com/articles/dataset/Intermediate_results_for_the_ICPE_2025_research_paper_artifact_related_to_Quantifying_Data_Leakage_in_Failure_Prediction_Tasks_/28218647)
 
 ---
 
@@ -89,6 +89,15 @@ and enter at any other point, using the provided intermediate results (explanati
 
 #### Example Usage for ML/DL Experiments
 
+For the deep learning experiments, by default, cuda is used for GPU acceleration, if available.
+We strongly recommend using a GPU for the experiments, otherwise the training will take a unreasonably long time.
+However, the evaluation procedures (see below) can also be done on a CPU in a reasonable time when using the provided intermediate results.
+You can check whether cuda is available by running the following command:
+
+```bash
+python -c "import torch; print(torch.cuda.is_available())"
+```
+
 Run all paper experiments from scratch. No intermediate results necessary.
 
 ```bash
@@ -146,7 +155,7 @@ any time in the Neptune Web interface. To do so, you need to provide your Neptun
 the `src/config/constants.py` file, and set `USE_NEPTUNE_LOGGER = True`. The logger will then automatically log the
 results to your Neptune project.
 
-Neptune.ai documentation: https://docs.neptune.ai/
+See: [Neptune.ai Documentation](https://docs.neptune.ai/)
 
 **Please note that for the hyperparameter tuning experiment, the usage of the Neptune Logger will lead to
 an `NeptuneFieldCountLimitExceedException` since more than 9000 fields are required for the logs. So only use the
