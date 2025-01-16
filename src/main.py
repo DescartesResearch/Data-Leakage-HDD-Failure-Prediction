@@ -150,3 +150,4 @@ if __name__ == "__main__":
         leakage_df = pd.DataFrame(leakage_df)
         Paths.TABLES.mkdir(exist_ok=True)
         leakage_df.to_csv(Paths.TABLES / "leakage_values.csv", index=False)
+        print("Finished computing leakage values.")
