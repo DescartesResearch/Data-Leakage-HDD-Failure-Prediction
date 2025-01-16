@@ -92,7 +92,7 @@ and enter at any other point, using the provided intermediate results (explanati
 Run all paper experiments from scratch. No intermediate results necessary.
 
 ```bash
-python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --hyperparam_tuning 42 --training --independent_test 2016
+python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --test_year 2016 --hyperparam_tuning 42 --training --independent_test
 ```
 
 Skip the hyperparameter tuning step and start with training.
@@ -100,7 +100,7 @@ Prerequisite: You either run the hyperparameter tuning step before or extract `h
 logs directory specified in `src/config/constants.py`.
 
 ```bash
-python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --training --independent_test 2016
+python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --test_year 2016 --training --independent_test
 ```
 
 Skip the hyperparameter tuning and training and only predict on the independent test set with the trained models.
@@ -108,7 +108,7 @@ Prerequisite: You either run the training step before or extract `training_resul
 in `src/config/constants.py`.
 
 ```bash
-python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --independent_test 2016
+python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --test_year 2016 --independent_test
 ```
 
 #### Example Usage for Evaluation Procedures
@@ -118,14 +118,14 @@ Prerequisite: `training` and `independent_test` have been executed before, or yo
 and `independent_test_results.zip` to the logs directory specified in `src/config/constants.py`.
 
 ```bash
-python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --generate_tables_figures
+python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --test_year 2016 --generate_tables_figures
 ```
 
 The leakage values for the given split strategies will be computed and saved as `leakage_values.csv` to the tables
 directory specified in `src/config/constants.py`.
 
 ```bash
-python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --compute_leakage
+python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --test_year 2016 --compute_leakage
 ```
 
 For convenience, these evaluation procedures are also included in the `run_evaluation.sh` script. You can execute it as

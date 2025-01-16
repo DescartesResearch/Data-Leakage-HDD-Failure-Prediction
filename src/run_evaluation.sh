@@ -1,1 +1,1 @@
-python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --compute_leakage --generate_tables_figures
+python main.py --models MLP LSTM RF HGBC --split_strategies no-split temporal group-based random0 --random_seeds 43 44 45 46 47 --test_year 2016 --compute_leakage --generate_tables_figures
