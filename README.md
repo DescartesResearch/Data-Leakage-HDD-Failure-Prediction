@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 3. Download the HDD stats data from Backblaze: https://www.backblaze.com/cloud-storage/resources/hard-drive-test-data
    <br> In the paper, the 2014/15 data and 2016 data was used.
-4. For the 2014 data, place the downloaded `data_2014.zip` file in `data/data_2014/data_2014.zip`. Don't extract the zip
-   file as the script will do this for you.
+4. For the 2014 data, place the downloaded `data_2014.zip` file in `data/data_2014/data_2014.zip` Don't extract the zip
+   file as the script will do this for you. (Please note: Not in `src/data/data_2014/...`! Create the data folder in the project root directory.) 
 5. For the 2015 data, repeat previous step analogously.
 6. The 2016 data is available quarter-wise. So, for the 2016 Q1 data, place the downloaded `data_Q1_2016.zip` file
    in `data/data_Q1_2016/data_Q1_2016.zip`. Don't extract the zip file as the script will do this for you.
