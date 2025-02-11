@@ -246,7 +246,7 @@ def test_func(config: dict,
                                  # profiler="simple",
                                  )
             resolve_weights(config, data_module, "inference")
-            criterion = get_criterion(config["training"]["loss"], scaler_y=data_module.scaler_y)
+            criterion = get_criterion(config["training"]["loss"])
             base_model = get_model({**config["model"]})
             model = get_LitModel(base_model=base_model,
                                  config=config,
