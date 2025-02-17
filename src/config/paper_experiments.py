@@ -1,4 +1,6 @@
 import copy
+from typing import Optional
+
 from ray import tune
 
 from config.constants import Constants
@@ -197,7 +199,8 @@ def get_hyperparam_tuning_config(
 def get_training_config(
         models: str | list[str],
         split_strategies: str | list[str],
-        random_seeds: int | list[int]
+        random_seeds: int | list[int],
+        config: Optional[dict] = None
 ) -> list[dict]:
     """
     Returns a list of config dictionaries for the training of the models for different split strategies.
@@ -206,6 +209,7 @@ def get_training_config(
     :param models: Model(s) to run the experiments for.
     :param split_strategies: Split strategies to run the experiments for.
     :param random_seeds: Random seed(s) for the experiments.
+    :param config: Optional configuration dict to overwrite standard behavior, that is, picking the best hyperparameters from the hyperparameter tuning.
     :return: List of configuration dicts. Length: #models x #split_strategies x #random_seeds
     """
     res = []
@@ -214,12 +218,16 @@ def get_training_config(
     # For the best hyperparameters, repeat training with multiple random seeds and evaluate the model on the test sets
     for model_name in models:
         for split_strategy_name in split_strategies:
-            hyperparam_search_exp_name = f"hyperparam-search_model={model_name}_split={split_strategy_name}"
-            logger = get_logger(hyperparam_search_exp_name)
-            best_config = logger.get_best_hyperparams()
+            if config is None:
+                hyperparam_search_exp_name = f"hyperparam-search_model={model_name}_split={split_strategy_name}"
+                logger = get_logger(hyperparam_search_exp_name)
+                best_config = logger.get_best_hyperparams()
+                best_config["name"] = hyperparam_search_exp_name.replace("hyperparam-search_", "")
+            else:
+                best_config = copy.deepcopy(config)
+                best_config["name"] = f"model={model_name}_split={split_strategy_name}"
             best_config.pop("ray_tune", None)
             best_config["dataset"]["save_objects"] = ["scaler"]  # save the scaler for the independent test
-            best_config["name"] = hyperparam_search_exp_name.replace("hyperparam-search_", "")
             for seed in random_seeds:
                 curr_config = copy.deepcopy(best_config)
                 curr_config["seed"] = seed
@@ -258,10 +266,7 @@ def get_independent_test_config(
 
                 # get the path where the fitted model is saved
 
-                if model_name in ["LSTM", "MLP"]:
-                    fitted_model_path = original_training_logger.fetch_object("model/best", return_obj_path=True)
-                else:
-                    fitted_model_path = original_training_logger.fetch_object("model/model", return_obj_path=True)
+                fitted_model_path = original_training_logger.fetch_object("model/best", return_obj_path=True)
                 curr_config["fitted_model"] = fitted_model_path
 
                 # make config adaptations for the independent test
