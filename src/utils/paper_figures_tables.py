@@ -143,6 +143,11 @@ def generate_tables_and_diagrams(
     figures_dir.mkdir(parents=True, exist_ok=True)
     tables_dir.mkdir(parents=True, exist_ok=True)
 
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": "Libertine"
+    })
+
     exp_names = set()
     for model_name in model_names:
         for split_strategy in split_strategies:
@@ -272,7 +277,10 @@ def generate_tables_and_diagrams(
         # set y axis limits
         ax.set_ylim(-0.2, 1.15)
         # ax.set_xlabel("Model")
-        ax.set_ylabel(f"{metric} optimism")
+        if metric == "G_mean":
+            ax.set_ylabel(r"$\mathrm{G}_{\mathrm{mean}}$ optimism")
+        else:
+            ax.set_ylabel(f"{metric} optimism")
         ax.legend(ncols=2, loc="upper center")
         plt.tight_layout()
         plt.savefig(figures_dir / f"{metric}_optimism.pdf")
