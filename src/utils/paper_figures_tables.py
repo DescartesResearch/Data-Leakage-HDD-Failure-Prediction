@@ -150,7 +150,7 @@ def generate_tables_and_diagrams(
             exp_names.add(f"independent-test_year={independent_test_year}_model={model_name}_split={split_strategy}")
     exp_names = list(exp_names)
 
-    metric_names = ['MCC', 'G_mean', 'F1']
+    metric_names = ['F1', 'G_mean', 'MCC']
     colname_mapping = {
         'mean/test/multiclass/class_0/MCC': 'MCC mean',
         'std/test/multiclass/class_0/MCC': 'MCC std',
@@ -188,16 +188,19 @@ def generate_tables_and_diagrams(
                                               f"{std_name}_independent"], inplace=True)
             curr_results_df.drop(columns=["year_independent"], inplace=True)
             curr_results_df.rename(columns={"year_default": "year"}, inplace=True)
-            datasets = {default_year: datasets[default_year]}
+            curr_datasets = {default_year: datasets[default_year]}
             colorcoding = True
             caption = "Performance Optimism (PO) of different split strategies. Red values indicate an overestimation of the predictive power, green values indicate a realistic or underestimation."
             label = "tab:po_results"
             po_df = curr_results_df.copy(deep=True)  # Copy for generating the figures later
         else:
+            curr_datasets = datasets.copy()
             caption = "Performance of models trained and tested with different split strategies applied to the 2014/15 dataset and performance on the held-out test data of scientific interest from 2016."
             label = "tab:results"
             curr_results_df = results_df.copy(deep=True)
             colorcoding = False
+
+        curr_results_df.to_csv(tables_dir / f"{table_type}.csv", index=False)
 
         for metric in metric_names:
             mean_name = f"{metric} mean"
@@ -210,7 +213,7 @@ def generate_tables_and_diagrams(
         tab_str = generate_latex_table(
             models=model_names,
             metrics=metric_names,
-            datasets=datasets,
+            datasets=curr_datasets,
             results=curr_results_df,
             caption=caption,
             label=label,
@@ -220,8 +223,6 @@ def generate_tables_and_diagrams(
 
         with open(tables_dir / f"{table_type}.tex", "w") as f:
             f.write(tab_str)
-
-        curr_results_df.to_csv(tables_dir / f"{table_type}.csv", index=False)
 
     # Generate paper figures
     for metric in metric_names:
