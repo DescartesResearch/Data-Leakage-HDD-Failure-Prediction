@@ -7,9 +7,30 @@ import pyperclip
 from matplotlib import pyplot as plt
 import seaborn as sns
 
-from config.constants import Paths
+from config.constants import Paths, Constants
 from training.logging import get_results_df
 
+if Constants.MATPLOTLIB_USETEX:
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": Constants.MATPLOTLIB_FONTFAMILY,
+        "figure.autolayout": Constants.MAPTLOTLIB_FIGURE_AUTOLAYOUT
+    })
+else:
+    plt.rcParams.update({
+        "text.usetex": False,
+        "font.family": Constants.MATPLOTLIB_FONTFAMILY,
+        "figure.autolayout": Constants.MAPTLOTLIB_FIGURE_AUTOLAYOUT
+    })
+
+
+# sns.set_palette("colorblind")
+# sns.set_theme(style="whitegrid")
+# sns.set_context("paper", font_scale=1, rc={
+#         "text.usetex": True,
+#         "font.family": "Libertine"
+#     })
+# sns.set_style("whitegrid")
 
 def generate_latex_table(models: list[str],
                          metrics: list[str],
@@ -143,11 +164,6 @@ def generate_tables_and_diagrams(
     figures_dir.mkdir(parents=True, exist_ok=True)
     tables_dir.mkdir(parents=True, exist_ok=True)
 
-    plt.rcParams.update({
-        "text.usetex": True,
-        "font.family": "Libertine"
-    })
-
     exp_names = set()
     for model_name in model_names:
         for split_strategy in split_strategies:
@@ -239,6 +255,7 @@ def generate_tables_and_diagrams(
 
         # Create the figure and axes
         fig, ax = plt.subplots(figsize=(4.8, 3.6))
+        ax.grid(visible=True, linewidth=0.5)
 
         # Adjust settings for matplotlib so that it is suitable for a paper
 
@@ -277,7 +294,7 @@ def generate_tables_and_diagrams(
         # set y axis limits
         ax.set_ylim(-0.2, 1.15)
         # ax.set_xlabel("Model")
-        if metric == "G_mean":
+        if metric == "G_mean" and Constants.MATPLOTLIB_USETEX:
             ax.set_ylabel(r"$\mathrm{G}_{\mathrm{mean}}$ optimism")
         else:
             ax.set_ylabel(f"{metric} optimism")

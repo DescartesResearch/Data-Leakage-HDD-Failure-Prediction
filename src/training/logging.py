@@ -741,15 +741,17 @@ def aggregate_versions(name: str, versions: list[str]):
         all_thresholds.append(curr_logger.fetch_all_values("thresholds"))
         all_metrics.append(curr_logger.fetch_all_values("metrics"))
 
+    agg_logger = get_logger(name=name, version=None)
+
     agg_metrics = aggregate_figures_and_metrics(
         metric_dicts=all_metrics,
         all_preds_and_true=all_preds,
         all_thresholds=all_thresholds if len(all_thresholds) > 0 else None,
         add_concat_metrics=True,
         pos_classes=[0],
+        figure_consumer=lambda fig, path: agg_logger.log_figure(path, fig),
     )
 
-    agg_logger = get_logger(name=name, version=None)
     agg_logger.log_metrics(flatten_dict(agg_metrics, sep=agg_logger.group_separator))
     agg_logger.finalize("success")
     return agg_metrics

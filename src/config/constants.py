@@ -6,8 +6,8 @@ class Paths:
     Clean organisation of relevant paths of the project to avoid things like "C:\\Users\\MaxMustermann\\Projects\\..."
     """
     PROJECT = Path(__file__).resolve().parents[2]
-    DATA = PROJECT / "data"
-    DATA_CACHE = DATA / "cache"
+    DATA = Path("/Users/daniel/Developer/data/backblaze")
+    DATA_CACHE = PROJECT / "cache"
     RAY_RESULTS = PROJECT / "ray_results"
     LOGS = PROJECT / "logs"
     MODELS = PROJECT / "trained_models"
@@ -41,6 +41,10 @@ class Constants:
     NEPTUNE_LOGGER_MODE = "async"
     NEPTUNE_ASYNC_NO_PROGRESS_THRESHOLD = 3600 * 24
     NEPTUNE_ASYNC_LAG_THRESHOLD = 3600 * 24 * 3
+    # Setting for Matplotlib figures
+    MATPLOTLIB_USETEX = True  # Latex must be installed and be added to Path environment variable
+    MATPLOTLIB_FONTFAMILY = "Libtertine"
+    MAPTLOTLIB_FIGURE_AUTOLAYOUT = True
     # Prefixes used as subdirectories for different kinds of data being logged for each run (or folds within runs)
     LOGGING_PREDICTIONS_PREFIX = "predictions"
     LOGGING_THRESHOLD_PREFIX = "thresholds"

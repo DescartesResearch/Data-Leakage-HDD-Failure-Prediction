@@ -17,6 +17,18 @@ from sklearn.metrics._ranking import _binary_clf_curve, average_precision_score
 from config.constants import Constants
 from utils.misc import rec_defaultdict, flatten_dict, nested_key_exists, remove_len_zero_values, unflatten_dict
 
+if Constants.MATPLOTLIB_USETEX:
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": Constants.MATPLOTLIB_FONTFAMILY,
+        "figure.autolayout": Constants.MAPTLOTLIB_FIGURE_AUTOLAYOUT
+    })
+else:
+    plt.rcParams.update({
+        "text.usetex": False,
+        "font.family": Constants.MATPLOTLIB_FONTFAMILY,
+        "figure.autolayout": Constants.MAPTLOTLIB_FIGURE_AUTOLAYOUT
+    })
 
 def data_leakage(test_data: pd.DataFrame, train_data: pd.DataFrame, group_col: str, datetime_col: str,
                  alpha: float = .0) -> float:
@@ -217,8 +229,8 @@ def get_metrics_and_figures(all_preds_and_true: dict,
         metrics_prefix += "/"
     if not figures_prefix.endswith("/"):
         figures_prefix += "/"
-    sns.set_style('white')
-    sns.set_context("paper", font_scale=2)
+    # sns.set_style('white')
+    # sns.set_context("paper", font_scale=2)
     if isinstance(thresholds, float):
         thresholds = {"val":
             {
@@ -847,7 +859,7 @@ class EvaluationPlots:
 
         # threshold-independent plots like ROC and PR curves
         else:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(3.6, 3.6))
             if self.iter_intervals is None:
                 fpr, tpr, _ = roc_curve(self.y_true, self.y_hat)
                 auc_score = auc(fpr, tpr)
