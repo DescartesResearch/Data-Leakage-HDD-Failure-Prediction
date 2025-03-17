@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 The required amount of time to run all experiments can be quite long (multiple days on the hardware described in the
 paper). Therefore, we provide intermediate results for the hyperparameter tuning, training and independent testing
-steps. You can download them from the following link: [Intermediate results download](https://figshare.com/articles/dataset/Intermediate_results_for_the_ICPE_2025_research_paper_artifact_related_to_Quantifying_Data_Leakage_in_Failure_Prediction_Tasks_/28218647)
+steps. You can download them from the Zenodo repository: [Intermediate results download](https://doi.org/10.5281/zenodo.15041973)
 
 ---
 
